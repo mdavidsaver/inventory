@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}Parts list{% endblock %}
+{% block title %}Delete {{ M }}{% endblock %}
 
 {% block content %}
 
 <p>
-Back to <a href="{% url vendors %}">Vendor list</a>
+Back to <a href="{% url home %}">Home</a>
 </p>
 
 <p>
-{% if done %}
-Deleted vendor {{ M.name }}
+{% if confirm %}
+Deleted {{ M }}
 {% else %}
-Really delete vendor {{ M.name }}?
+Really delete {{ M }}?
 This will delete all information assocaited with it.
 <a href="?confirm=yes">Delete</a>
 {% endif %}

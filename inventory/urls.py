@@ -4,6 +4,7 @@ from django.views.generic import ListView
 from inventory.models import *
 from inventory.editor import EditorView
 from inventory.detail import DetailView
+from inventory.delete import DeleteView
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -23,6 +24,10 @@ urlpatterns = patterns('',
       EditorView.as_view(model=Part, form=PartForm, idkey=['oem__name','partnum'], template='edit_part.html'),
       name='edit_part'),
 
+    url(r'^part/del/(?P<oem__name>\w+)/(?P<partnum>\w+)/?$',
+      DeleteView.as_view(model=Part, idkey=['oem__name','partnum']),
+      name='del_part'),
+
     url(r'^part/(?P<oem__name>\w+)/(?P<partnum>\w+)/?$',
       DetailView.as_view(model=Part, idkey=['oem__name','partnum'], template='part.html'),
       name='part'),
@@ -40,7 +45,11 @@ urlpatterns = patterns('',
 #    url(r'^vendor/edit/?$', 'inventory.views.edit_vendor', name='edit_vendor'),
 #    url(r'^vendor/edit/(?P<name>\w+)/?$', 'inventory.views.edit_vendor', name='edit_vendor'),
 
-    url(r'^vendor/delete/(?P<name>\w+)/?$', 'inventory.views.del_vendor', name='del_vendor'),
+    url(r'^vendor/delete/(?P<name>\w+)/?$',
+      DeleteView.as_view(model=Vendor, idkey=['name']),
+      name='del_vendor'),
+
+#    url(r'^vendor/delete/(?P<name>\w+)/?$', 'inventory.views.del_vendor', name='del_vendor'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

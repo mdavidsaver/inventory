@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load get_form %}
+
 {% block title %}Part {{ object.partnum }} from {{ object.oem.name }}{% endblock %}
 
 {% block content %}
@@ -24,10 +26,23 @@
   <li>Part: {{ object.partnum }}</li>
   <li>On hand: {{ object.count }}</li>
   <li><p>{{ object.desc }}</p></li>
+{% for sup in object.suppliers.objects.all %}
+  <li>{{ sup.seller.name }} {{ sup.partnum }}
+  </li>
+{% endfor %}
 </ul>
 
-{% if name %}
-<p><a href="{% url del_vendor name %}">Delete {{ name }}</a></p>
-{% endif %}
+<h3>Add supplier</h3>
+{% new_model_form 'SupplyForm' as formset %}
+<p>
+<form method="post" action="XYZ">{% csrf_token %}
+    {{ formset }}
+    <input type="submit" value="Submit" />
+</form>
+</p>
+
+</p>
+
+<p><a href="{% url del_part object.oem.name object.partnum %}">Delete {{ object }}</a></p>
 
 {% endblock %}

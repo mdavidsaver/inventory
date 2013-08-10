@@ -25,7 +25,7 @@ class Part(models.Model):
     unique_together = [('oem','partnum')]
 
   def __unicode__(self):
-    print u'%s: %s'%(self.oem.name, self.partnum)
+    return u'%s: %s'%(self.oem.name, self.partnum)
 
 class Supply(models.Model):
   seller = models.ForeignKey(Vendor)
@@ -51,3 +51,13 @@ class PartForm(ModelForm):
   class Meta:
     model = Part
     exclude = ('suppliers',)
+
+class SupplyForm(ModelForm):
+  class Meta:
+    model = Supply
+    exclude = ('part',)
+
+class InfoForm(ModelForm):
+  class Meta:
+    model = Supply
+    exclude = ('part',)

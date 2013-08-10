@@ -7,7 +7,7 @@ from models import *
 
 def show_parts(request):
   parts = Part.objects.all()
-  return render_to_response('parts.html', {'object_list':parts})
+  return render_to_response('parts_list.html', {'object_list':parts})
 
 def edit_vendor(request, name=''):
   if request.method == 'POST':
@@ -31,7 +31,7 @@ def edit_vendor(request, name=''):
     except Vendor.DoesNotExist:
       newv = VendorForm()
 
-  return render_to_response('vendor.html', {'formset':newv,'name':name})
+  return render_to_response('edit_vendor.html', {'formset':newv,'name':name})
 
 def del_vendor(request, name):
   M = Vendor.objects.get(name=name)

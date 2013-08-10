@@ -111,15 +111,14 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'ecit.urls'
+ROOT_URLCONF = 'inventory.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'ecit.wsgi.application'
+WSGI_APPLICATION = 'inventory.wsgi.application'
 
 TEMPLATE_DIRS = (
     '/home/mdavidsaver/django/ecit',
     '/home/mdavidsaver/django/ecit/inventory',
-    '/home/mdavidsaver/django/ecit/ecit',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

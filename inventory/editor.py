@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.template.response import TemplateResponse
 from django.views.generic import View
 from django.forms.models import model_to_dict
 
@@ -26,7 +26,7 @@ class EditorView(View):
     except self.model.DoesNotExist:
       # return an empty form
       C['formset'] = self.form()
-    return render_to_response(self.template, C)
+    return TemplateResponse(request, self.template, C)
 
   def post(self, request, **kws):
     id = kws.get(self.idkey, None)
@@ -46,6 +46,6 @@ class EditorView(View):
     C['formset']=form
     C['object']=form.instance
 
-    return render_to_response(self.template, C)
+    return TemplateResponse(request, self.template, C)
 
 

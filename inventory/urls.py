@@ -24,9 +24,15 @@ urlpatterns = patterns('',
       EditorView.as_view(model=Part, form=PartForm, idkey=['oem__name','partnum'], template='edit_part.html'),
       name='edit_part'),
 
-    url(r'^part/del/(?P<oem__name>\w+)/(?P<partnum>\w+)/?$',
+    url(r'^part/delete/(?P<oem__name>\w+)/(?P<partnum>\w+)/?$',
       DeleteView.as_view(model=Part, idkey=['oem__name','partnum']),
       name='del_part'),
+
+    url(r'^part/supply/(?P<vname>\w+)/(?P<pnum>\w+)/?$',
+      'inventory.views.add_supply', name='edit_supply'),
+
+    url(r'^part/supply/(?P<vname>\w+)/(?P<pnum>\w+)/(?P<sname>\w+)/?$',
+      'inventory.views.add_supply', name='edit_supply'),
 
     url(r'^part/(?P<oem__name>\w+)/(?P<partnum>\w+)/?$',
       DetailView.as_view(model=Part, idkey=['oem__name','partnum'], template='part.html'),
@@ -42,14 +48,9 @@ urlpatterns = patterns('',
       EditorView.as_view(model=Vendor, form=VendorForm, idkey=['name'], template='edit_vendor.html'),
       name='edit_vendor'),
 
-#    url(r'^vendor/edit/?$', 'inventory.views.edit_vendor', name='edit_vendor'),
-#    url(r'^vendor/edit/(?P<name>\w+)/?$', 'inventory.views.edit_vendor', name='edit_vendor'),
-
     url(r'^vendor/delete/(?P<name>\w+)/?$',
       DeleteView.as_view(model=Vendor, idkey=['name']),
       name='del_vendor'),
-
-#    url(r'^vendor/delete/(?P<name>\w+)/?$', 'inventory.views.del_vendor', name='del_vendor'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

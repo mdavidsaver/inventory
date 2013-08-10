@@ -6,7 +6,7 @@
 
 {%if object %}
 <p>
-<a href="{% url part object.oem.name object.partnum %}">Done</a>
+<a href="{% url edit_supply object.part.oem.name object.part.partnum object.seller.name %}">Done</a>
 </p>
 {% endif %}
 
@@ -16,9 +16,5 @@
     <input type="submit" value="Submit" />
 </form>
 </p>
-
-{% if object %}
-<p><a href="{% url del_part object.oem.name object.partnum %}">Delete {{ name }}</a></p>
-{% endif %}
 
 {% endblock %}

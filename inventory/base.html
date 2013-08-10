@@ -6,6 +6,21 @@
 </head>
 
 <body>
+<p>
+<a href="{% url home %}">Home</a>
+<a href="{% url vendors %}">Vendor list</a>
+</p>
+
+{% if messages %}
+<p>
+<ul>
+    {% for message in messages %}
+    <li>{% if message.tags %} {{ message.tags }}: {% endif %}{{ message }}</li>
+    {% endfor %}
+</ul>
+</p>
+{% endif %}
+
 {% block content %}{% endblock %}
 </body>
 </html>

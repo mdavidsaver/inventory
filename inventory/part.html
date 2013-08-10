@@ -7,27 +7,16 @@
 {% block content %}
 
 <p>
-<a href="{% url home %}">Parts list</a>
 <a href="{% url edit_part object.oem.name object.partnum %}">Edit Part</a>
 </p>
-
-{% if messages %}
-<p>
-<ul>
-    {% for message in messages %}
-    <li>{% if message.tags %} {{ message.tags }}: {% endif %}{{ message }}</li>
-    {% endfor %}
-</ul>
-</p>
-{% endif %}
 
 <ul>
   <li>Source: <a href="{{ object.oem.site }}">{{ object.oem.name }}</a></li>
   <li>Part: {{ object.partnum }}</li>
   <li>On hand: {{ object.count }}</li>
   <li><p>{{ object.desc }}</p></li>
-{% for sup in object.suppliers.objects.all %}
-  <li>{{ sup.seller.name }} {{ sup.partnum }}
+{% for sup in object.supply_set.all %}
+  <li>From: {{ sup.seller.name }} as: {{ sup.partnum }}
   </li>
 {% endfor %}
 </ul>
@@ -35,7 +24,7 @@
 <h3>Add supplier</h3>
 {% new_model_form 'SupplyForm' as formset %}
 <p>
-<form method="post" action="XYZ">{% csrf_token %}
+<form method="post" action="{% url edit_supply object.oem.name object.partnum %}">{% csrf_token %}
     {{ formset }}
     <input type="submit" value="Submit" />
 </form>

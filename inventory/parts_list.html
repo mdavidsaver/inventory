@@ -6,26 +6,25 @@
 
 {% block content %}
 <p>
-<a href="{% url vendors %}">Vendor List</a>
-</p>
-<p>
 <ul>
 {% for obj in object_list %}
-  <li>{{ obj.oem.name }}, <a href="{% url part obj.oem.name obj.partnum %}">{{ obj.partnum }}</a>
+  <li>
+    <a href="{{ obj.get_absolute_url }}">{{ obj.partnum }}</a>
+    {{ obj.oem.name }}
+    {{ obj.desc|truncatewords:10 }}
     <a href="{% url edit_part obj.oem.name obj.partnum %}">Edit</a>
   </li>
 {% endfor %}
 </ul>
 </p>
 
-<p>
 {% new_model_form 'PartForm' as formset %}
+<h3>Create new part</h3>
 <p>
 <form method="post" action="{% url edit_part %}">{% csrf_token %}
     {{ formset.as_p }}
-    <input type="submit" value="Submit" />
+    <input type="submit" value="Create" />
 </form>
-</p>
 </p>
 
 {% endblock %}

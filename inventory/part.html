@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Part {{ object.partnum }} from {{ object.oem.name }}{% endblock %}
+
+{% block content %}
+
+<p>
+<a href="{% url home %}">Parts list</a>
+<a href="{% url edit_part object.oem.name object.partnum %}">Edit Part</a>
+</p>
+
+{% if messages %}
+<p>
+<ul>
+    {% for message in messages %}
+    <li>{% if message.tags %} {{ message.tags }}: {% endif %}{{ message }}</li>
+    {% endfor %}
+</ul>
+</p>
+{% endif %}
+
+<ul>
+  <li>Source: <a href="{{ object.oem.site }}">{{ object.oem.name }}</a></li>
+  <li>Part: {{ object.partnum }}</li>
+  <li>On hand: {{ object.count }}</li>
+  <li><p>{{ object.desc }}</p></li>
+</ul>
+
+{% if name %}
+<p><a href="{% url del_vendor name %}">Delete {{ name }}</a></p>
+{% endif %}
+
+{% endblock %}

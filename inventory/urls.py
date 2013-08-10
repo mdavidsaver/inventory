@@ -3,6 +3,7 @@ from django.views.generic import ListView
 
 from inventory.models import *
 from inventory.editor import EditorView
+from inventory.detail import DetailView
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -15,14 +16,25 @@ urlpatterns = patterns('',
 
     url(r'^$', 'inventory.views.show_parts', name='home'),
 
+    url(r'^part/edit/?$',
+      EditorView.as_view(model=Part, form=PartForm, idkey=['oem__name','partnum'], template='edit_part.html'),
+      name='edit_part'),
+    url(r'^part/edit/(?P<oem__name>\w+)/(?P<partnum>\w+)/?$',
+      EditorView.as_view(model=Part, form=PartForm, idkey=['oem__name','partnum'], template='edit_part.html'),
+      name='edit_part'),
+
+    url(r'^part/(?P<oem__name>\w+)/(?P<partnum>\w+)/?$',
+      DetailView.as_view(model=Part, idkey=['oem__name','partnum'], template='part.html'),
+      name='part'),
+
     url(r'^vendor/?$', ListView.as_view(queryset=Vendor.objects.all()),
         name='vendors'),
 
     url(r'^vendor/edit/?$',
-      EditorView.as_view(model=Vendor, form=VendorForm, idkey='name', template='vendor.html'),
+      EditorView.as_view(model=Vendor, form=VendorForm, idkey=['name'], template='edit_vendor.html'),
       name='edit_vendor'),
     url(r'^vendor/edit/(?P<name>\w+)/?$',
-      EditorView.as_view(model=Vendor, form=VendorForm, idkey='name', template='vendor.html'),
+      EditorView.as_view(model=Vendor, form=VendorForm, idkey=['name'], template='edit_vendor.html'),
       name='edit_vendor'),
 
 #    url(r'^vendor/edit/?$', 'inventory.views.edit_vendor', name='edit_vendor'),

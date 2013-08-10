@@ -15,26 +15,36 @@ class EditorView(View):
   template = None
 
   def get(self, request, **kws):
-    id = kws.get(self.idkey, None)
+    id = {}
+    for k in self.idkey:
+       try:
+         id[k] = kws[k]
+       except KeyError:
+         pass
     C = {'idkey':id}
     try:
-      # find an existing object to edit
-      Q = {self.idkey:id}
-      mod = self.model.objects.get(**Q)
-      C['formset'] = self.form(model_to_dict(mod), instance=mod)
-      C['object'] = mod
+      # find an existing object to edit?
+      mod = self.model.objects.get(**id)
     except self.model.DoesNotExist:
       # return an empty form
       C['formset'] = self.form()
+    else:
+      # edit existing
+      C['formset'] = self.form(model_to_dict(mod), instance=mod)
+      C['object'] = mod
     return TemplateResponse(request, self.template, C)
 
   def post(self, request, **kws):
-    id = kws.get(self.idkey, None)
+    id = {}
+    for k in self.idkey:
+       try:
+         id[k] = kws[k]
+       except KeyError:
+         pass
     C = {'idkey':id}
     if id:
       # updste existing
-      Q = {self.idkey:id}
-      mod = self.model.objects.get(**Q)
+      mod = self.model.objects.get(**id)
       form = self.form(request.POST, instance=mod)
     else:
       # Create new
@@ -47,5 +57,3 @@ class EditorView(View):
     C['object']=form.instance
 
     return TemplateResponse(request, self.template, C)
-
-

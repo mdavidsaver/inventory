@@ -9,6 +9,9 @@ class Vendor(models.Model):
   name = models.CharField('Name',unique=True,max_length=100)
   site = models.URLField()
 
+  def __unicode__(self):
+    return self.name
+
 class Part(models.Model):
   oem = models.ForeignKey(Vendor, related_name='made_set')
   partnum = models.CharField('Vendor part num',max_length=100)
@@ -21,9 +24,14 @@ class Part(models.Model):
   class Meta:
     unique_together = [('oem','partnum')]
 
+  def __unicode__(self):
+    print u'%s: %s'%(self.oem.name, self.partnum)
+
 class Supply(models.Model):
   seller = models.ForeignKey(Vendor)
   part = models.ForeignKey(Part)
+
+  partnum = models.CharField('Vendor part num',max_length=100)
 
   url = models.URLField()
 

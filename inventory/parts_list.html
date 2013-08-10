@@ -3,10 +3,16 @@
 {% block title %}Parts list{% endblock %}
 
 {% block content %}
+<p>
+<a href="{% url vendors %}">Vendor List</a>
+</p>
+<p>
 <ul>
 {% for obj in object_list %}
-  <li>{{ obj.partnum }}, {{ obj.desc }}
+  <li>{{ obj.oem.name }}, <a href="{% url part obj.oem.name obj.partnum %}">{{ obj.partnum }}</a>
+    <a href="{% url edit_part obj.oem.name obj.partnum %}">Edit</a>
   </li>
 {% endfor %}
 </ul>
+</p>
 {% endblock %}

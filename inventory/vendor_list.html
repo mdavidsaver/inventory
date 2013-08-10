@@ -13,9 +13,9 @@
 </ul>
 <p>
 <form method="post" action="{% url edit_vendor %}">{% csrf_token %}
-    <label for="id_name">New Vendor:</label> <input id="id_name" type="text" name="name" value="" maxlength="100" />
+    <label for="id_name">New vendor:</label> <input id="id_name" type="text" name="name" value="" maxlength="100" />
     {{ formset.as_p }}
-    <input type="submit" value="Submit" />
+    <input type="submit" value="Create" />
 </form>
 </p>
 {% endblock %}

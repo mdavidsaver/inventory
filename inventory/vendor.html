@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Vendor{% endblock %}
+
+{% block content %}
+
+<p>
+<a href="{% url vendors %}">Vendor list</a>
+</p>
+
+{% if messages %}
+<p>
+<ul>
+    {% for message in messages %}
+    <li>{% if message.tags %} {{ message.tags }}: {% endif %}{{ message }}</li>
+    {% endfor %}
+</ul>
+</p>
+{% endif %}
+
+<p>
+<form method="post" action="">{% csrf_token %}
+    {{ formset.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+</p>
+
+{% if name %}
+<p><a href="{% url del_vendor name %}">Delete {{ name }}</a></p>
+{% endif %}
+
+{% endblock %}

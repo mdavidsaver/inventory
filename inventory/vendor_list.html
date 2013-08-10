@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Vendor list{% endblock %}
+
+{% block content %}
+<ul>
+{% for obj in object_list %}
+  <li><a href="{{obj.site}}">{{ obj.name }}</a>
+      <a href="{% url edit_vendor obj.name %}">Edit</a>
+      <a href="{% url home %}?vendor={{ obj.name }}">Parts</a>
+  </li>
+{% endfor %}
+</ul>
+<p>
+<form method="post" action="{% url edit_vendor %}">{% csrf_token %}
+    <label for="id_name">New Vendor:</label> <input id="id_name" type="text" name="name" value="" maxlength="100" />
+    {{ formset.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+</p>
+{% endblock %}

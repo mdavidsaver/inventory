@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Parts list{% endblock %}
+
+{% block content %}
+
+<p>
+Back to <a href="{% url vendors %}">Vendor list</a>
+</p>
+
+<p>
+{% if done %}
+Deleted vendor {{ M.name }}
+{% else %}
+Really delete vendor {{ M.name }}?
+This will delete all information assocaited with it.
+<a href="?confirm=yes">Delete</a>
+{% endif %}
+</p>
+
+{% endblock %}

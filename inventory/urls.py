@@ -28,6 +28,10 @@ urlpatterns = patterns('',
       DeleteView.as_view(model=Part, idkey=['oem__name','partnum']),
       name='del_part'),
 
+    url(r'^part/supply/delete/(?P<part__oem__name>\w+)/(?P<part__partnum>\w+)/(?P<seller__name>\w+)/?$',
+      DeleteView.as_view(model=Supply, idkey=['part__oem__name','part__partnum','seller__name']),
+      name='del_supply'),
+
     url(r'^part/supply/(?P<vname>\w+)/(?P<pnum>\w+)/?$',
       'inventory.views.add_supply', name='edit_supply'),
 

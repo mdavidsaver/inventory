@@ -20,8 +20,8 @@ class Vendor(models.Model):
     return self.name
 
 class Part(models.Model):
-  oem = models.ForeignKey(Vendor, related_name='made_set')
-  partnum = models.CharField('Vendor part num',max_length=100)
+  oem = models.ForeignKey(Vendor, related_name='made_set', verbose_name='OEM')
+  partnum = models.CharField('OEM P/N',max_length=100)
   count = models.PositiveIntegerField('number held',default=0)
 
   desc = models.TextField('Description')
@@ -51,11 +51,15 @@ class Supply(models.Model):
   url = models.URLField()
 
   class Meta:
-    unique_together = [('seller','part'), ('seller','partnum')]
+    unique_together = [('seller','part', 'partnum')]
 
   @models.permalink
   def get_absolute_url(self):
     return ('edit_supply', [self.part.oem.name, self.part.partnum, self.seller.name])
+
+  @models.permalink
+  def get_del_url(self):
+    return ('del_supply', [self.part.oem.name, self.part.partnum, self.seller.name])
 
   def __unicode__(self):
     return u'%s: from %s as %s'%(self.part, self.seller.name, self.partnum)

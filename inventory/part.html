@@ -16,7 +16,8 @@
   <li>On hand: {{ object.count }}</li>
   <li><p>{{ object.desc }}</p></li>
 {% for sup in object.supply_set.all %}
-  <li>From: {{ sup.seller.name }} as: {{ sup.partnum }}
+  <li>From: {{ sup.seller.name }} as: <a href="{{ sup.url }}">{{ sup.partnum }}</a>
+      <a href="{{ sup.get_del_url }}">Delete</a>
   </li>
 {% endfor %}
 </ul>
@@ -32,6 +33,6 @@
 
 </p>
 
-<p><a href="{% url del_part object.oem.name object.partnum %}">Delete {{ object }}</a></p>
+<p>Delete <a href="{% url del_part object.oem.name object.partnum %}">{{ object }}</a></p>
 
 {% endblock %}

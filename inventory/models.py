@@ -9,8 +9,11 @@ store = FileSystemStorage()
 
 class Vendor(models.Model):
   name = models.CharField('Name',unique=True,max_length=100,
-                          validators=[RegexValidator('^\w+$')])
+                          validators=[RegexValidator('^\S+$')])
   site = models.URLField()
+
+  class Meta:
+    ordering = ['name']
 
   @models.permalink
   def get_absolute_url(self):
@@ -21,7 +24,8 @@ class Vendor(models.Model):
 
 class Part(models.Model):
   oem = models.ForeignKey(Vendor, related_name='made_set', verbose_name='OEM')
-  partnum = models.CharField('OEM P/N',max_length=100)
+  partnum = models.CharField('OEM P/N',max_length=100,
+                             validators=[RegexValidator('^\S+$')])
   count = models.PositiveIntegerField('number held',default=0)
 
   desc = models.TextField('Description')
@@ -30,6 +34,7 @@ class Part(models.Model):
 
   class Meta:
     unique_together = [('oem','partnum')]
+    ordering = ['partnum']
 
   @models.permalink
   def get_absolute_url(self):
@@ -46,12 +51,14 @@ class Supply(models.Model):
   seller = models.ForeignKey(Vendor)
   part = models.ForeignKey(Part)
 
-  partnum = models.CharField('Vendor part num',max_length=100)
+  partnum = models.CharField('Vendor part num',max_length=100,
+                             validators=[RegexValidator('^\S+$')])
 
   url = models.URLField()
 
   class Meta:
     unique_together = [('seller','part', 'partnum')]
+    ordering = ['partnum']
 
   @models.permalink
   def get_absolute_url(self):

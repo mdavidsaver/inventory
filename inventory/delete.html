@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<p>
+<div class="entry">
 {% if confirm %}
 Deleted {{ M }}
 {% else %}
@@ -12,6 +12,6 @@ Really delete {{ M }}?
 This will delete all information assocaited with it.
 <a href="?confirm=yes">Delete</a>
 {% endif %}
-</p>
+</div>
 
 {% endblock %}

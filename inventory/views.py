@@ -65,6 +65,7 @@ def add_supply(request, vname, pnum, sname=None):
     if form.is_valid():
       form.save()
       messages.add_message(request, messages.INFO, 'updated')
+      return HttpResponseRedirect(form.instance.part.get_absolute_url())
 
   else:
     if sname is None:

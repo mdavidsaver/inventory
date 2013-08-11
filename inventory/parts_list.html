@@ -5,20 +5,27 @@
 {% block title %}Parts list{% endblock %}
 
 {% block content %}
-<p>
-<ul>
-{% for obj in object_list %}
-  <li>
-    {{ obj.count }}
-    <a href="{{ obj.get_absolute_url }}">{{ obj.partnum }}</a>
-    {{ obj.oem.name }}
-    {{ obj.desc|truncatewords:10 }}
-    <a href="{% url edit_part obj.oem.name obj.partnum %}">Edit</a>
-  </li>
-{% endfor %}
-</ul>
-</p>
 
+<div class="entry">
+<table>
+<tr>
+ <th>Count</th>
+ <th>Part</th>
+ <th>Vendor</th>
+ <th>Description</th>
+</tr>
+{% for obj in object_list %}
+</tr>
+  <td>{{ obj.count }}</td>
+  <td><a href="{{ obj.get_absolute_url }}">{{ obj.partnum }}</a></td>
+  <td>{{ obj.oem.name }}</td>
+  <td>{{ obj.desc|truncatewords:10 }}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<div class="entryform">
 {% new_model_form 'PartForm' as formset %}
 <h3>Create new part</h3>
 <p>
@@ -26,6 +33,6 @@
     {{ formset.as_p }}
     <input type="submit" value="Create" />
 </form>
-</p>
+</div>
 
 {% endblock %}

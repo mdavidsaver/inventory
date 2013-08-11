@@ -19,49 +19,49 @@ urlpatterns = patterns('',
 
     url(r'^$', 'inventory.views.show_parts', name='home'),
 
-    url(r'^part/edit/?$',
+    url(r'^part/edit/$',
       EditorView.as_view(model=Part, form=PartForm, idkey=['oem__name','partnum'], template='edit_part.html'),
       name='edit_part'),
-    url(r'^part/edit/(?P<oem__name>\w+)/(?P<partnum>\w+)/?$',
+    url(r'^part/edit/(?P<oem__name>\S+)/(?P<partnum>\S+)/$',
       EditorView.as_view(model=Part, form=PartForm, idkey=['oem__name','partnum'], template='edit_part.html'),
       name='edit_part'),
 
-    url(r'^part/delete/(?P<oem__name>\w+)/(?P<partnum>\w+)/?$',
+    url(r'^part/delete/(?P<oem__name>\S+)/(?P<partnum>\S+)/$',
       DeleteView.as_view(model=Part, idkey=['oem__name','partnum']),
       name='del_part'),
 
-    url(r'^part/supply/delete/(?P<part__oem__name>\w+)/(?P<part__partnum>\w+)/(?P<seller__name>\w+)/?$',
+    url(r'^part/supply/delete/(?P<part__oem__name>\S+)/(?P<part__partnum>\S+)/(?P<seller__name>\S+)/$',
       DeleteView.as_view(model=Supply, idkey=['part__oem__name','part__partnum','seller__name']),
       name='del_supply'),
 
-    url(r'^part/supply/(?P<vname>\w+)/(?P<pnum>\w+)/?$',
+    url(r'^part/supply/(?P<vname>\S+)/(?P<pnum>\S+)/$',
       'inventory.views.add_supply', name='edit_supply'),
 
-    url(r'^part/supply/(?P<vname>\w+)/(?P<pnum>\w+)/(?P<sname>\w+)/?$',
+    url(r'^part/supply/(?P<vname>\S+)/(?P<pnum>\S+)/(?P<sname>\S+)/$',
       'inventory.views.add_supply', name='edit_supply'),
 
-    url(r'^part/addinfo/(?P<vname>\w+)/(?P<pnum>\w+)/?$',
+    url(r'^part/addinfo/(?P<vname>\S+)/(?P<pnum>\S+)/$',
       'inventory.views.add_info', name='add_info'),
 
-    url(r'^part/delinfo/(?P<pk>\d+)/?$',
+    url(r'^part/delinfo/(?P<pk>\d+)/$',
        'inventory.views.del_info',
       name='del_info'),
 
-    url(r'^part/(?P<oem__name>\w+)/(?P<partnum>\w+)/?$',
+    url(r'^part/(?P<oem__name>\S+)/(?P<partnum>\S+)/$',
       DetailView.as_view(model=Part, idkey=['oem__name','partnum'], template='part.html'),
       name='part'),
 
-    url(r'^vendor/?$', ListView.as_view(queryset=Vendor.objects.all()),
+    url(r'^vendor/$', ListView.as_view(queryset=Vendor.objects.all()),
         name='vendors'),
 
-    url(r'^vendor/edit/?$',
+    url(r'^vendor/edit/$',
       EditorView.as_view(model=Vendor, form=VendorForm, idkey=['name'], template='edit_vendor.html'),
       name='edit_vendor'),
-    url(r'^vendor/edit/(?P<name>\w+)/?$',
+    url(r'^vendor/edit/(?P<name>\S+)/$',
       EditorView.as_view(model=Vendor, form=VendorForm, idkey=['name'], template='edit_vendor.html'),
       name='edit_vendor'),
 
-    url(r'^vendor/delete/(?P<name>\w+)/?$',
+    url(r'^vendor/delete/(?P<name>\S+)/$',
       DeleteView.as_view(model=Vendor, idkey=['name']),
       name='del_vendor'),
 

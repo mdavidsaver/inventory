@@ -4,6 +4,7 @@
 
 {% block content %}
 
+<div class="entryform">
 <p>
 <form method="post" action="">{% csrf_token %}
     {{ formset.as_p }}
@@ -11,8 +12,9 @@
 </form>
 </p>
 
-{% if name %}
-<p><a href="{% url del_vendor name %}">Delete {{ name }}</a></p>
+{% if object %}
+<p><a href="{% url del_vendor object.name %}">Delete {{ object }}</a></p>
 {% endif %}
+</div>
 
 {% endblock %}

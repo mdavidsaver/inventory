@@ -3,19 +3,29 @@
 {% block title %}Vendor list{% endblock %}
 
 {% block content %}
-<ul>
+<div class="entry">
+<table>
+<tr>
+  <th>Name</th>
+  <th>Edit</th>
+  <th>Parts made</th>
+  <th>Parts sold</th>
+</tr>
 {% for obj in object_list %}
-  <li><a href="{{obj.site}}">{{ obj.name }}</a>
-      <a href="{% url edit_vendor obj.name %}">Edit</a>
-      <a href="{% url home %}?vendor={{ obj.name }}">Parts</a>
-  </li>
+<tr>
+  <td><a href="{{obj.site}}">{{ obj.name }}</a></td>
+  <td><a href="{% url edit_vendor obj.name %}">Edit</a></td>
+  <td><a href="{% url home %}?vendor={{ obj.name }}">Made</a></td>
+  <td><a href="{% url home %}?seller={{ obj.name }}">Sold</a></td>
+</tr>
 {% endfor %}
-</ul>
-<p>
+</table>
+</div>
+<div class="entryform">
 <form method="post" action="{% url edit_vendor %}">{% csrf_token %}
     <label for="id_name">New vendor:</label> <input id="id_name" type="text" name="name" value="" maxlength="100" />
     {{ formset.as_p }}
     <input type="submit" value="Create" />
 </form>
-</p>
+</div>
 {% endblock %}

@@ -1,0 +1,44 @@
+body {
+    background-color:#347d06;
+    font-size:100%;
+}
+
+#contenttop {
+    background-color:#84d153;
+}
+
+#navbar {
+    float:right;
+    background-color:#84d153;
+}
+
+#navbar ul {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+
+#navbar li {
+    display:inline;
+    padding-right: 5px;
+}
+
+#content {
+    padding-bottom: 5px;
+}
+
+.pager, .mainform {
+    background-color:#84d153;
+}
+
+.entry {}
+
+.entryform {}
+
+.entry, .entryform {
+    background-color:#FDE7A2;
+}
+
+.parta {background-color:#DFF3F2;}
+.partb {background-color:#D9EFCC;}
+

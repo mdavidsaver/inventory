@@ -6,34 +6,40 @@
 
 {% block content %}
 
+<div class="entry">
 <p>
 <a href="{% url edit_part object.oem.name object.partnum %}">Edit Part</a>
 </p>
 
-<ul>
-  <li>Source: <a href="{{ object.oem.site }}">{{ object.oem.name }}</a></li>
-  <li>Part: {{ object.partnum }}</li>
-  <li>On hand: {{ object.count }}</li>
-  <li><p>{{ object.desc|linebreaks }}</p></li>
-{% for sup in object.supply_set.all %}
-  <li>From: {{ sup.seller.name }} as: <a href="{{ sup.url }}">{{ sup.partnum }}</a>
-      <a href="{{ sup.get_del_url }}">Delete</a>
-  </li>
-{% endfor %}
-{% for info in object.info_set.all %}
-  <li>
-  {% if info.desc %}{{ info.desc }}{% endif %}
-  {% if info.url %}
-    <a href="{{ info.url }}">link</a>
-  {% endif %}
-  {% if info.file %}
-    <a href="{{ info.file.url }}">file</a>
-  {% endif %}
-  <a href="{% url del_info info.pk %}">Delete</a>
-  </li>
-{% endfor %}
-</ul>
+<table>
+<tr><th>Source</th><td><a href="{{ object.oem.site }}">{{ object.oem.name }}</a></td></tr>
+<tr><th>P/N</th><td>{{ object.partnum }}</td></tr>
+<tr><th>Count</th><td>{{ object.count }}</td></tr>
+<tr><th>Descirption</th><td><p>{{ object.desc|linebreaks }}</p></td></tr>
+</table>
 
+<table>
+<tr><th>Seller</th><th>P/N</th><th></th></tr>
+{% for sup in object.supply_set.all %}
+  <tr><td>{{ sup.seller.name }}</td>
+    <td><a href="{{ sup.url }}">{{ sup.partnum }}</a></td>
+    <td><a href="{{ sup.get_del_url }}">Delete</a></td>
+  </tr>
+{% endfor %}
+</table>
+
+<table>
+{% for info in object.info_set.all %}
+<td>{{ info.desc|default:"related" }}</td>
+<td> {% if info.url %} <a href="{{ info.url }}">link</a> {% endif %}</td>
+<td> {% if info.file %} <a href="{{ info.file.url }}">file</a> {% endif %}</td>
+<td> <a href="{% url del_info info.pk %}">Delete</a> </td>
+{% endfor %}
+</table>
+
+</div>
+
+<div class="entryform">
 <h3>Add supplier</h3>
 {% new_model_form 'SupplyForm' as formset %}
 <form method="post" action="{% url edit_supply object.oem.name object.partnum %}">{% csrf_token %}
@@ -51,5 +57,5 @@
 </p>
 
 <p>Delete <a href="{% url del_part object.oem.name object.partnum %}">{{ object }}</a></p>
-
+</div>
 {% endblock %}

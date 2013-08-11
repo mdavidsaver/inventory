@@ -1,19 +1,29 @@
 {% extends "base.html" %}
 
 {% load get_form %}
+{% load static from staticfiles %}
 
 {% block title %}Parts list{% endblock %}
+
+{% block extraheader %}
+<link rel="stylesheet" href="{% static "themes/blue/style.css" %}" />
+<script type="text/javascript" src="{% static "jquery.js" %}"></script> 
+<script type="text/javascript" src="{% static "jquery.tablesorter.js" %}"></script> 
+<script type="text/javascript">
+ $(document).ready(function() { $("#partstable").tablesorter(); });
+</script>
+{% endblock %}
 
 {% block content %}
 
 <div class="entry">
-<table>
-<tr>
+<table id="partstable" class="tablesorter">
+<thead><tr>
  <th>Count</th>
  <th>Part</th>
  <th>Vendor</th>
  <th>Description</th>
-</tr>
+</tr></thead><tbody>
 {% for obj in object_list %}
 </tr>
   <td>{{ obj.count }}</td>
@@ -22,7 +32,7 @@
   <td>{{ obj.desc|truncatewords:10 }}</td>
 </tr>
 {% endfor %}
-</table>
+</tbody></table>
 </div>
 
 <div class="entryform">

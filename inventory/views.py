@@ -7,12 +7,14 @@ from django.contrib import messages
 from models import *
 
 def show_parts(request):
+  parts = Part.objects
+
+  # filter vendor list
   vlist = filter(len, request.GET.get('vendor','').split(','))
   if vlist:
-    parts = Part.objects.filter(oem__name__in=vlist)
-  else:
-    parts = Part.objects.all()
-  return TemplateResponse(request, 'parts_list.html', {'object_list':parts})
+    parts = parts.filter(oem__name__in=vlist)
+
+  return TemplateResponse(request, 'parts_list.html', {'object_list':parts.all()})
 
 def add_info(request, vname, pnum):
   part = Part.objects.get(oem__name=vname, partnum=pnum)

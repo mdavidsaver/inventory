@@ -1,5 +1,5 @@
 from django.db import models
-from django.forms import ModelForm
+from django.forms import ModelForm, ValidationError
 from django.core.validators import RegexValidator
 
 from django.core.files.storage import FileSystemStorage
@@ -66,8 +66,9 @@ class Supply(models.Model):
 
 class Info(models.Model):
   part = models.ForeignKey(Part)
-  url = models.URLField()
-  file = models.FileField(upload_to='sheets', storage=store, max_length=100)
+  desc = models.CharField('Label', max_length=30, null=True, blank=True)
+  url = models.URLField(null=True,blank=True)
+  file = models.FileField(null=True,blank=True,upload_to='sheets', storage=store, max_length=100)
 
 
 # Forms
@@ -88,5 +89,13 @@ class SupplyForm(ModelForm):
 
 class InfoForm(ModelForm):
   class Meta:
-    model = Supply
+    model = Info
     exclude = ('part',)
+
+  def clean(self):
+    cleaned = super(InfoForm, self).clean()
+    url = cleaned.get('url', '')
+    file = cleaned.get('file', None)
+    if not url and not file:
+      raise ValidationError("Must specify a file and or URL")
+    return cleaned

@@ -14,23 +14,40 @@
   <li>Source: <a href="{{ object.oem.site }}">{{ object.oem.name }}</a></li>
   <li>Part: {{ object.partnum }}</li>
   <li>On hand: {{ object.count }}</li>
-  <li><p>{{ object.desc }}</p></li>
+  <li><p>{{ object.desc|linebreaks }}</p></li>
 {% for sup in object.supply_set.all %}
   <li>From: {{ sup.seller.name }} as: <a href="{{ sup.url }}">{{ sup.partnum }}</a>
       <a href="{{ sup.get_del_url }}">Delete</a>
+  </li>
+{% endfor %}
+{% for info in object.info_set.all %}
+  <li>
+  {% if info.desc %}{{ info.desc }}{% endif %}
+  {% if info.url %}
+    <a href="{{ info.url }}">link</a>
+  {% endif %}
+  {% if info.file %}
+    <a href="{{ info.file.url }}">file</a>
+  {% endif %}
+  <a href="{% url del_info info.pk %}">Delete</a>
   </li>
 {% endfor %}
 </ul>
 
 <h3>Add supplier</h3>
 {% new_model_form 'SupplyForm' as formset %}
-<p>
 <form method="post" action="{% url edit_supply object.oem.name object.partnum %}">{% csrf_token %}
     {{ formset }}
     <input type="submit" value="Submit" />
 </form>
-</p>
 
+{% new_model_form 'InfoForm' as infoform %}
+<h3>Add information</h3>
+<p>
+<form method="post" enctype="multipart/form-data" action="{% url add_info object.oem.name object.partnum %}">{% csrf_token %}
+    {{ infoform }}
+    <input type="submit" value="Submit" />
+</form>
 </p>
 
 <p>Delete <a href="{% url del_part object.oem.name object.partnum %}">{{ object }}</a></p>

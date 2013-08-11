@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.conf.urls import patterns, include, url
+from django.conf.urls.static import static
 from django.views.generic import ListView
 
 from inventory.models import *
@@ -38,6 +40,13 @@ urlpatterns = patterns('',
     url(r'^part/supply/(?P<vname>\w+)/(?P<pnum>\w+)/(?P<sname>\w+)/?$',
       'inventory.views.add_supply', name='edit_supply'),
 
+    url(r'^part/addinfo/(?P<vname>\w+)/(?P<pnum>\w+)/?$',
+      'inventory.views.add_info', name='add_info'),
+
+    url(r'^part/delinfo/(?P<pk>\d+)/?$',
+       'inventory.views.del_info',
+      name='del_info'),
+
     url(r'^part/(?P<oem__name>\w+)/(?P<partnum>\w+)/?$',
       DetailView.as_view(model=Part, idkey=['oem__name','partnum'], template='part.html'),
       name='part'),
@@ -61,4 +70,5 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-)
+
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

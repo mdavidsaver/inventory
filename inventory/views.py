@@ -1,5 +1,5 @@
 from django.template.response import TemplateResponse
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.forms.models import model_to_dict
 
 from django.contrib import messages
@@ -7,9 +7,42 @@ from django.contrib import messages
 from models import *
 
 def show_parts(request):
-  parts = Part.objects.all()
+  vlist = filter(len, request.GET.get('vendor','').split(','))
+  if vlist:
+    parts = Part.objects.filter(oem__name__in=vlist)
+  else:
+    parts = Part.objects.all()
   return TemplateResponse(request, 'parts_list.html', {'object_list':parts})
 
+def add_info(request, vname, pnum):
+  part = Part.objects.get(oem__name=vname, partnum=pnum)
+  C={'part':part}
+
+  if request.method=='POST':
+    form = InfoForm(request.POST, request.FILES)
+
+    if form.is_valid():
+      form.instance.part = part
+      form.save()
+      return HttpResponseRedirect(part.get_absolute_url())
+
+  else:
+    form = InfoForm()
+
+  C['formset'] = form
+  return TemplateResponse(request, 'add_info.html', C)
+
+def del_info(request, pk):
+  info = Info.objects.get(pk=pk)
+  C={'object':info}
+  C['confirm'] = request.GET.get('confirm','')=='yes'
+  if C['confirm']:
+    if info.file:
+      info.file.delete(save=False)
+    info.delete()
+
+  return TemplateResponse(request, 'delete.html', C)
+  
 
 def add_supply(request, vname, pnum, sname=None):
   part = Part.objects.get(oem__name=vname, partnum=pnum)

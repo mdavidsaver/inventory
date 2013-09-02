@@ -3,6 +3,9 @@ from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.views.generic import ListView
 
+import djapian
+djapian.load_indexes()
+
 from inventory.models import *
 from inventory.editor import EditorView
 from inventory.detail import DetailView

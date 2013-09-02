@@ -1,20 +1,38 @@
+from django.core.urlresolvers import reverse
 from django.template.response import TemplateResponse
 from django.http import Http404, HttpResponseRedirect
 from django.forms.models import model_to_dict
+from django import forms
 
 from django.contrib import messages
 
 from models import *
 
+class SearchForm(forms.Form):
+  query = forms.CharField(required=True)
+
 def show_parts(request):
-  parts = Part.objects
+  parts = Part.objects.all()
+  conv = False
+
+  if 'query' in request.GET:
+    form = SearchForm(request.GET)
+    if form.is_valid():
+      query = form.cleaned_data['query']
+      parts = Part.indexer.search(query).prefetch()
+      conv = True
 
   # filter vendor list
   vlist = filter(len, request.GET.get('vendor','').split(','))
   if vlist:
     parts = parts.filter(oem__name__in=vlist)
 
-  return TemplateResponse(request, 'parts_list.html', {'object_list':parts.all()})
+  if conv:
+    # Warning: this will fail for large query sets.
+    # Paginate first?
+    parts = [ p.instance for p in parts ]
+
+  return TemplateResponse(request, 'parts_list.html', {'object_list':parts})
 
 def add_info(request, vname, pnum):
   part = Part.objects.get(oem__name=vname, partnum=pnum)

@@ -56,6 +56,7 @@ SESSION_COOKIE_AGE = 24*60*60
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
+DJAPIAN_DATABASE_PATH = '/home/mdavidsaver/django/ecit/spaces'
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
@@ -128,6 +129,7 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'inventory',
+    'djapian',
 #    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

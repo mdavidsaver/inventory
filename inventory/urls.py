@@ -54,7 +54,7 @@ urlpatterns = patterns('',
       DetailView.as_view(model=Part, idkey=['oem__name','partnum'], template='part.html'),
       name='part'),
 
-    url(r'^vendor/$', ListView.as_view(queryset=Vendor.objects.all()),
+    url(r'^vendor/$', ListView.as_view(queryset=Vendor.objects.all(), template_name='vendor_list.html'),
         name='vendors'),
 
     url(r'^vendor/edit/$',

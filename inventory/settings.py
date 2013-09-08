@@ -1,5 +1,9 @@
 # Django settings for ecit project.
 
+APPBASE='/var/inventory'
+BASE='/var/www'
+from os.path import join
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -13,7 +17,7 @@ DATABASES = {
     'default': {
         # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'ecit.db',                      # Or path to database file if using sqlite3.
+        'NAME': join(APPBASE,'ecit.db'),                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -56,11 +60,11 @@ SESSION_COOKIE_AGE = 24*60*60
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
-DJAPIAN_DATABASE_PATH = '/home/mdavidsaver/django/ecit/spaces'
+DJAPIAN_DATABASE_PATH = join(APPBASE,'spaces')
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/home/mdavidsaver/django/ecit/media'
+MEDIA_ROOT = join(BASE,'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -71,7 +75,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '/home/mdavidsaver/django/ecit/static'
+STATIC_ROOT = join(BASE,'static')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -120,8 +124,7 @@ ROOT_URLCONF = 'inventory.urls'
 WSGI_APPLICATION = 'inventory.wsgi.application'
 
 TEMPLATE_DIRS = (
-    '/home/mdavidsaver/django/ecit',
-    '/home/mdavidsaver/django/ecit/inventory',
+    join(APPBASE,'inventory'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

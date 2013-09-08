@@ -1,0 +1,5 @@
+= Required debian packages
+
+python-django
+libjs-jquery
+libjs-jquery-tablesorter

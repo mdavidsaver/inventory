@@ -32,7 +32,8 @@ for I in models.Info.objects.all():
       print ' Dispose as',fname
 
     else:
-      fname = os.path.basename(I.url)
+      U = urllib2.urlparse.urlparse(R.url)
+      fname = os.path.basename(U.path)
       print ' Save as',fname
 
     F = SpooledTemporaryFile(max_size=R.info().get('content-length',0))

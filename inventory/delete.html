@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}Delete {{ M }}{% endblock %}
+{% block title %}Delete {{ object }}{% endblock %}
 
 {% block content %}
 
 <div class="entry">
 {% if confirm %}
-Deleted {{ M }}
+Deleted {{ object }}
 {% else %}
-Really delete {{ M }}?
+Really delete {{ object }}?
 This will delete all information assocaited with it.
-<a href="?confirm=yes">Delete</a>
+<form method="post" action="">{% csrf_token %}<input type="submit" value="Delete" /></form>
 {% endif %}
 </div>
 

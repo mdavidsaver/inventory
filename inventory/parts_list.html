@@ -36,11 +36,11 @@
 </div>
 
 <div class="entryform">
-{% new_model_form 'PartForm' as formset %}
+{% new_model_form 'PartForm' as form %}
 <h3>Create new part</h3>
 <p>
 <form method="post" action="{% url "edit_part" %}">{% csrf_token %}
-    {{ formset.as_p }}
+    {{ form.as_p }}
     <input type="submit" value="Create" />
 </form>
 </div>

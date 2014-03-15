@@ -17,7 +17,7 @@ class Vendor(models.Model):
 
   @models.permalink
   def get_absolute_url(self):
-    return ('vendor', [self.name])
+    return ('vendors',)
 
   def __unicode__(self):
     return self.name

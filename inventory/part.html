@@ -15,7 +15,7 @@
 <tr><th>Source</th><td><a href="{{ object.oem.site }}">{{ object.oem.name }}</a></td></tr>
 <tr><th>P/N</th><td>{{ object.partnum }}</td></tr>
 <tr><th>Count</th><td>{{ object.count }}</td></tr>
-<tr><th>Descirption</th><td><p>{{ object.desc|linebreaks }}</p></td></tr>
+<tr><th>Description</th><td><p>{{ object.desc|linebreaks }}</p></td></tr>
 </table>
 
 <table>
@@ -41,9 +41,9 @@
 
 <div class="entryform">
 <h3>Add supplier</h3>
-{% new_model_form 'SupplyForm' as formset %}
+{% new_model_form 'SupplyForm' as form %}
 <form method="post" action="{% url "edit_supply" object.oem.name object.partnum %}">{% csrf_token %}
-    {{ formset }}
+    {{ form }}
     <input type="submit" value="Submit" />
 </form>
 

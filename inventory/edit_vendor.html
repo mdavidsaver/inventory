@@ -7,7 +7,7 @@
 <div class="entryform">
 <p>
 <form method="post" action="">{% csrf_token %}
-    {{ formset.as_p }}
+    {{ form.as_p }}
     <input type="submit" value="Submit" />
 </form>
 </p>

@@ -9,8 +9,6 @@ from django.http import HttpResponseRedirect
 from django import forms
 from django.shortcuts import get_object_or_404
 
-from django.contrib import messages
-
 from models import Part
 
 class SearchForm(forms.Form):
@@ -41,10 +39,7 @@ def show_parts(request):
 
 def use_part(request, oem, partnum):
     P = get_object_or_404(Part.objects, oem__name=oem, partnum=partnum)
-    if P.count<=0:
-        messages.add_message(request, messages.ERROR, 'No parts to use')
-    else:
+    if P.count>0:
         P.count = P.count - 1
         P.save()
-        messages.add_message(request, messages.ERROR, 'Used one %s'%P)
     return HttpResponseRedirect(request.GET.get('next', '') or P.get_absolute_url())

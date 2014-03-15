@@ -57,7 +57,7 @@ class Supply(models.Model):
   url = models.URLField()
 
   class Meta:
-    unique_together = [('seller','part', 'partnum')]
+    unique_together = [('seller','part')]
     ordering = ['partnum']
 
   @models.permalink

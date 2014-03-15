@@ -1,7 +1,8 @@
 # Django settings for ecit project.
 
-APPBASE='/var/inventory'
-BASE='/var/www'
+import os
+APPBASE=os.getcwd()
+BASE=APPBASE
 from os.path import join
 
 DEBUG = True
@@ -121,7 +122,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+#    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
 #    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -146,7 +147,7 @@ INSTALLED_APPS = (
     'djapian',
 #    'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+#    'django.contrib.sessions',
 #    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',

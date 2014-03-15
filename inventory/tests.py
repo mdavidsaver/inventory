@@ -111,6 +111,21 @@ class PartView(TestCase):
         self.assertEqual(M.desc, 'another name')
         self.assertEqual(M.count, 42)
 
+    def test_dec(self):
+        P = Part.objects.create(oem=self.V, partnum='xyz', count=5, desc='another part')
+
+        R = self.client.get('/part/use/testv/xyz/?next=/')
+        self.assertEqual(R.status_code, 302)
+        self.assertRedirects(R, '/')
+
+        self.assertEqual(Part.objects.get(pk=P.pk).count, 4)
+
+        R = self.client.get('/part/use/testv/xyz/')
+        self.assertEqual(R.status_code, 302)
+        self.assertRedirects(R, '/part/testv/xyz/')
+
+        self.assertEqual(Part.objects.get(pk=P.pk).count, 3)
+
     def test_home(self):
         p = Part.objects.create(oem=self.V, partnum='xyz')
         R = self.client.get('')

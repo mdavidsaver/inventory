@@ -2,7 +2,7 @@
 from django.utils import unittest
 from django.test.client import Client
 
-from models import *
+from models import Vendor, Part
 
 class Vendors(unittest.TestCase):
   def setUp(self):
@@ -44,6 +44,20 @@ class Vendors(unittest.TestCase):
     self.assertRaises(Vendor.DoesNotExist, Vendor.objects.get, name='testb')
     M = Vendor.objects.get(name='testc')
     self.assertEqual(M.site, 'http://abc.xyz/a')
+
+  def test_delete(self):
+    M = Vendor.objects.create(name='testd', site='http://mmm.abc/nnn')
+
+    R = self.client.get('/vendor/delete/testd/')
+    self.assertEqual(R.status_code, 200)
+
+    N = Vendor.objects.get(name='testd')
+    self.assertEqual(M, N)
+
+    R = self.client.get('/vendor/delete/testd/?confirm=yes', {})
+    self.assertEqual(R.status_code, 200)
+
+    self.assertRaises(Vendor.DoesNotExist, Vendor.objects.get, name='testd')
 
 class PartView(unittest.TestCase):
   def setUp(self):

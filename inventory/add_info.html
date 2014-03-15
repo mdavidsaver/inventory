@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="entry">
-<form method="post" enctype="multipart/form-data" action="{% url add_info part.oem.name part.partnum %}">{% csrf_token %}
+<form method="post" enctype="multipart/form-data" action="{% url "add_info" part.oem.name part.partnum %}">{% csrf_token %}
     {{ formset.as_p }}
     <input type="submit" value="Submit" />
 </form>

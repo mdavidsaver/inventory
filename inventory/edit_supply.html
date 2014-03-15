@@ -7,7 +7,7 @@
 <div class="entryform">
 {%if object %}
 <p>
-<a href="{% url edit_supply object.part.oem.name object.part.partnum object.seller.name %}">Done</a>
+<a href="{% url "edit_supply" object.part.oem.name object.part.partnum object.seller.name %}">Done</a>
 </p>
 {% endif %}
 

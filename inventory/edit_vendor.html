@@ -13,7 +13,7 @@
 </p>
 
 {% if object %}
-<p><a href="{% url del_vendor object.name %}">Delete {{ object }}</a></p>
+<p><a href="{% url "del_vendor" object.name %}">Delete {{ object }}</a></p>
 {% endif %}
 </div>
 

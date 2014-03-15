@@ -8,7 +8,7 @@
 
 <div class="entry">
 <p>
-<a href="{% url edit_part object.oem.name object.partnum %}">Edit Part</a>
+<a href="{% url "edit_part" object.oem.name object.partnum %}">Edit Part</a>
 </p>
 
 <table>
@@ -33,7 +33,7 @@
 <td>{{ info.desc|default:"related" }}</td>
 <td> {% if info.url %} <a href="{{ info.url }}">link</a> {% endif %}</td>
 <td> {% if info.file %} <a href="{{ info.file.url }}">file</a> {% endif %}</td>
-<td> <a href="{% url del_info info.pk %}">Delete</a> </td>
+<td> <a href="{% url "del_info" info.pk %}">Delete</a> </td>
 {% endfor %}
 </table>
 
@@ -42,7 +42,7 @@
 <div class="entryform">
 <h3>Add supplier</h3>
 {% new_model_form 'SupplyForm' as formset %}
-<form method="post" action="{% url edit_supply object.oem.name object.partnum %}">{% csrf_token %}
+<form method="post" action="{% url "edit_supply" object.oem.name object.partnum %}">{% csrf_token %}
     {{ formset }}
     <input type="submit" value="Submit" />
 </form>
@@ -50,12 +50,12 @@
 {% new_model_form 'InfoForm' as infoform %}
 <h3>Add information</h3>
 <p>
-<form method="post" enctype="multipart/form-data" action="{% url add_info object.oem.name object.partnum %}">{% csrf_token %}
+<form method="post" enctype="multipart/form-data" action="{% url "add_info" object.oem.name object.partnum %}">{% csrf_token %}
     {{ infoform }}
     <input type="submit" value="Submit" />
 </form>
 </p>
 
-<p>Delete <a href="{% url del_part object.oem.name object.partnum %}">{{ object }}</a></p>
+<p>Delete <a href="{% url "del_part" object.oem.name object.partnum %}">{{ object }}</a></p>
 </div>
 {% endblock %}

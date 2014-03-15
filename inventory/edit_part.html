@@ -7,7 +7,7 @@
 <div class="entryform">
 {%if object %}
 <p>
-<a href="{% url part object.oem.name object.partnum %}">Done</a>
+<a href="{% url "part" object.oem.name object.partnum %}">Done</a>
 </p>
 {% endif %}
 
@@ -19,7 +19,7 @@
 </p>
 
 {% if object %}
-<p><a href="{% url del_part object.oem.name object.partnum %}">Delete {{ name }}</a></p>
+<p><a href="{% url "del_part" object.oem.name object.partnum %}">Delete {{ name }}</a></p>
 {% endif %}
 </div>
 

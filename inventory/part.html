@@ -14,7 +14,7 @@
 <table>
 <tr><th>Source</th><td><a href="{{ object.oem.site }}">{{ object.oem.name }}</a></td></tr>
 <tr><th>P/N</th><td>{{ object.partnum }}</td></tr>
-<tr><th>Count</th><td>{{ object.count }}</td></tr>
+<tr><th>Count</th><td>{{ object.count }} <a href="{% url "part_use" part.oem.name part.partnum %}?next={{ request.path }}">Use</a></td></tr>
 <tr><th>Description</th><td><p>{{ object.desc|linebreaks }}</p></td></tr>
 </table>
 

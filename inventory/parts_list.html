@@ -26,7 +26,7 @@
 </tr></thead><tbody>
 {% for obj in object_list %}
 </tr>
-  <td>{{ obj.count }}</td>
+  <td>{{ obj.count }} <a href="{% url "part_use" obj.oem.name obj.partnum %}?next={{ request.path }}">-</a></td>
   <td><a href="{{ obj.get_absolute_url }}">{{ obj.partnum }}</a></td>
   <td>{{ obj.oem.name }}</td>
   <td>{{ obj.desc|truncatewords:10 }}</td>

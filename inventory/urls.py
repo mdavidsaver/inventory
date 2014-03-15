@@ -123,6 +123,9 @@ urlpatterns = patterns('',
     url(r'^part/delinfo/(?P<pk>\d+)/$',
        InfoDeleteView.as_view(), name='del_info'),
 
+    url(r'^part/use/(?P<oem>\S+)/(?P<partnum>\S+)/$',
+        'inventory.views.use_part', name='part_use'),
+
     url(r'^part/(?P<oem>\S+)/(?P<partnum>\S+)/$',
       PartDetailView.as_view(), name='part'),
 

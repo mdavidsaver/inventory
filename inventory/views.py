@@ -1,5 +1,7 @@
 from django.template.response import TemplateResponse
+from django.http import HttpResponseRedirect
 from django import forms
+from django.shortcuts import get_object_or_404
 
 from django.contrib import messages
 
@@ -30,3 +32,13 @@ def show_parts(request):
     parts = [ p.instance for p in parts ]
 
   return TemplateResponse(request, 'parts_list.html', {'object_list':parts})
+
+def use_part(request, oem, partnum):
+    P = get_object_or_404(Part.objects, oem__name=oem, partnum=partnum)
+    if P.count<=0:
+        messages.add_message(request, messages.ERROR, 'No parts to use')
+    else:
+        P.count = P.count - 1
+        P.save()
+        messages.add_message(request, messages.ERROR, 'Used one %s'%P)
+    return HttpResponseRedirect(request.GET.get('next', '') or P.get_absolute_url())

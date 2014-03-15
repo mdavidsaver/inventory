@@ -1,3 +1,9 @@
+"""
+Copyright (C) 2013 Michael Davidsaver
+Licensed under AGPL 3+
+See file "LICENSE" for full terms
+"""
+
 from django.db import models
 from django.forms import ModelForm, ValidationError
 from django.core.validators import RegexValidator

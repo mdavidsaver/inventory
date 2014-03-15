@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+"""
+Copyright (C) 2013 Michael Davidsaver
+Licensed under AGPL 3+
+See file "LICENSE" for full terms
+"""
 
 import os, os.path, sys
 import urllib2, re

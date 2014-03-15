@@ -1,3 +1,9 @@
+"""
+Copyright (C) 2013 Michael Davidsaver
+Licensed under AGPL 3+
+See file "LICENSE" for full terms
+"""
+
 from django.conf import settings
 from django.conf.urls import patterns, url
 from django.conf.urls.static import static

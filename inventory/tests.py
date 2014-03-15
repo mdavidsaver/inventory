@@ -1,3 +1,8 @@
+"""
+Copyright (C) 2013 Michael Davidsaver
+Licensed under AGPL 3+
+See file "LICENSE" for full terms
+"""
 
 import tempfile, os
 

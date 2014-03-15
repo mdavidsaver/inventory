@@ -1,3 +1,9 @@
+"""
+Copyright (C) 2013 Michael Davidsaver
+Licensed under AGPL 3+
+See file "LICENSE" for full terms
+"""
+
 from django.template.response import TemplateResponse
 from django.http import HttpResponseRedirect
 from django import forms

@@ -1,3 +1,9 @@
+"""
+Copyright (C) 2013 Michael Davidsaver
+Licensed under AGPL 3+
+See file "LICENSE" for full terms
+"""
+
 from djapian import space, Indexer, CompositeIndexer
 
 from models import *

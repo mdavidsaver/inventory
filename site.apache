@@ -1,0 +1,60 @@
+# An example virtual host
+# Assumes inventory app is cloned into /var/inventory
+# with static data in /var/www
+#
+# In inventory/settings.py
+#   APPBASE='/var/inventory'
+#   BASE='/var/www'
+
+
+WSGIPythonPath /var/inventory
+
+<VirtualHost *:80>
+	ServerName router.local
+	ServerAlias router
+	ServerAdmin webmaster@localhost
+
+	DocumentRoot /var/www
+
+	Alias /robots.txt /var/www/robots.txt
+	Alias /favicon.ico /var/www/favicon.ico
+
+	Alias /media/ /var/www/media/
+	Alias /static/ /var/www/static/
+
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /var/www/>
+		Order allow,deny
+		allow from all
+	</Directory>
+
+#	WSGIDaemonProcess router.local processes=2 threads=15 display-name=%{GROUP}
+#	WSGIProcessGroup router.local
+
+	WSGIScriptAlias / /var/inventory/inventory/wsgi.py
+
+	<Directory /var/inventory/inventory>
+		Order allow,deny
+		allow from all
+	</Directory>
+
+## Serve CGI scripts
+#	ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+#	<Directory "/usr/lib/cgi-bin">
+#		AllowOverride None
+#		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+#		Order allow,deny
+#		Allow from all
+#	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>

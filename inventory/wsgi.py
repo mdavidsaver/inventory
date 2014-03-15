@@ -17,9 +17,11 @@ import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "inventory.settings")
 
-import site
-
-site.addsitedir('/var/inventory')
+## The following is an alternative to the WSGIPythonPath directive
+## Apache.  It may be useful as WSGIPythonPath may not be specialized
+## per virtual host.
+#import site
+#site.addsitedir('/var/inventory')
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION

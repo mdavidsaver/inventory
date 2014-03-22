@@ -38,22 +38,24 @@ class Command(BaseCommand):
             'MEDIA_ROOT and/or STATIC_ROOT files')
 
     def handle(self, *args, **options):
-        print 'backupcmd',args,options
 
         pdict = {'origin':'django app backup'}
         outfile = options.get('output')
+        verb = int(options.get('verbosity','1'))
 
         bnum = int(options.get('backup'))
         if bnum and os.path.isfile(outfile):
             # backup file names
             backups = ['%s.%d'%(outfile,n) for n in range(bnum)]
             backups.reverse() # .2, .1, .0
-            print 'backups',backups
+            if verb>1:
+                print 'backups',backups
 
             # rotate
             for n in range(1,len(backups)):
                 TO, FROM = backups[n-1], backups[n]
-                print 'rotate',FROM,TO
+                if verb>1:
+                    print 'rotate',FROM,TO
                 if os.path.isfile(FROM):
                     # eg. Replace .1 with .0
                     if os.path.isfile(TO):
@@ -75,7 +77,8 @@ class Command(BaseCommand):
                 dumpcmd.stdout = dout
                 dumpcmd.stderr = self.stderr
                 dumpcmd.handle(*args, **options)
-                print 'raw DB dump size',dout.tell()
+                if verb>1:
+                    print 'raw DB dump size',dout.tell()
 
                 dname = output.tarinfo('db.json')
                 dname.type = tarfile.REGTYPE
@@ -88,14 +91,17 @@ class Command(BaseCommand):
                 output.addfile(dname, dout)
 
             if options.get('media') and os.path.isdir(settings.MEDIA_ROOT):
-                print 'backup MEDIA_ROOT =',settings.MEDIA_ROOT
+                if verb>1:
+                    print 'backup MEDIA_ROOT =',settings.MEDIA_ROOT
                 output.add(settings.MEDIA_ROOT, 'media')
 
             if options.get('static') and os.path.isdir(settings.STATIC_ROOT):
-                print 'backup STATIC_ROOT =',settings.STATIC_ROOT
+                if verb>1:
+                    print 'backup STATIC_ROOT =',settings.STATIC_ROOT
                 output.add(settings.STATIC_ROOT, 'static')
 
-            output.list()
+            if verb>2:
+                output.list()
             output.close()
         except:
             # delete partial output on error

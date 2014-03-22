@@ -16,6 +16,10 @@
 
 {% block content %}
 
+{% if squerystr %}
+<p>Did you mean: <a href="?query={{ squerystr }}">{{ squerystr }}</a>?</p>
+{% endif %}
+
 <div class="entry">
 <table id="partstable" class="tablesorter">
 <thead><tr>

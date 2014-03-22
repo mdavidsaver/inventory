@@ -16,7 +16,7 @@ class SearchForm(forms.Form):
 
 def show_parts(request):
     parts = Part.objects.all()
-    conv, query = False, ''
+    conv, query, spell = False, '', ''
 
     if 'query' in request.GET:
         form = SearchForm(request.GET)
@@ -24,6 +24,7 @@ def show_parts(request):
             query = form.cleaned_data['query']
             parts = Part.indexer.search(query).spell_correction().prefetch()
             conv = True
+            spell = parts.get_corrected_query_string()
 
     # filter vendor list
     vlist = filter(len, request.GET.get('vendor','').split(','))
@@ -36,7 +37,7 @@ def show_parts(request):
         parts = [ p.instance for p in parts ]
 
     return TemplateResponse(request, 'parts_list.html',
-                            {'object_list':parts,'querystr':query})
+                            {'object_list':parts,'querystr':query,'squerystr':spell})
 
 def use_part(request, oem, partnum):
     P = get_object_or_404(Part.objects, oem__name=oem, partnum=partnum)

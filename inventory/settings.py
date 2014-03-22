@@ -62,6 +62,7 @@ SESSION_COOKIE_AGE = 24*60*60
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 DJAPIAN_DATABASE_PATH = join(APPBASE,'spaces')
+DJAPIAN_STEMMING_LANG = 'en'
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"

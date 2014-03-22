@@ -22,7 +22,7 @@ def show_parts(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             query = form.cleaned_data['query']
-            parts = Part.indexer.search(query).prefetch()
+            parts = Part.indexer.search(query).spell_correction().prefetch()
             conv = True
 
     # filter vendor list

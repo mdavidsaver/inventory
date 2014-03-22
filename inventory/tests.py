@@ -128,6 +128,7 @@ class PartView(TestCase):
 
     def test_home(self):
         p = Part.objects.create(oem=self.V, partnum='xyz')
+        Part.indexer.update()
         R = self.client.get('')
         self.assertEqual(R.status_code, 200)
         self.assertEqual(list(R.context['object_list']), [p])
@@ -211,3 +212,42 @@ class InfoView(TestCase):
         self.assertEqual(O.file.read(), 'test data')
         O.file.close()
         O.file.delete()
+
+class SearchTest(TestCase):
+    def setUp(self):
+        self.V1 = Vendor.objects.create(name='testv1')
+        self.V2 = Vendor.objects.create(name='testv2')
+        C = Part.objects.create
+        self.P = [
+            C(oem=self.V1, partnum='v1p1', desc='something'),
+            C(oem=self.V1, partnum='v1p2', desc='something and another'),
+            C(oem=self.V1, partnum='v1p3', desc='a keyword and some others...'),
+            C(oem=self.V2, partnum='v2p1', desc='some interesting thing'),
+            C(oem=self.V2, partnum='v2p2', desc='plural somethings'),
+            C(oem=self.V2, partnum='v2p3', desc='random'),
+        ]
+        Part.indexer.update()
+
+    def test_listall(self):
+        R = self.client.get('')
+        self.assertEqual(R.status_code, 200)
+        self.assertSetEqual(set(R.context['object_list']), set(self.P))
+
+    def test_vendorfilt(self):
+        R = self.client.get('', {'vendor':'testv1'})
+        self.assertEqual(R.status_code, 200)
+        self.assertSetEqual(set(R.context['object_list']), set(self.P[:3]))
+
+    def test_work(self):
+        R = self.client.get('', {'query':'keyword'})
+        self.assertEqual(R.status_code, 200)
+        self.assertSetEqual(set(R.context['object_list']), set(self.P[2:3]))
+
+        R = self.client.get('', {'query':'something'})
+        self.assertEqual(R.status_code, 200)
+        self.assertSetEqual(set(R.context['object_list']), set([self.P[n] for n in [0,1,4]]))
+
+    def test_wild(self):
+        R = self.client.get('', {'query':'some*'})
+        self.assertEqual(R.status_code, 200)
+        self.assertSetEqual(set(R.context['object_list']), set(self.P[0:5]))

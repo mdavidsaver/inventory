@@ -4,7 +4,7 @@ DJANGO_SETTINGS_MODULE=inventory.settings
 # min hr dom mon dow cmd...
 
 # Update incremental re-index every 15 min
-0,15,30,45 * * * * cd $APPBASE && ./manage index
+0,15,30,45 * * * * cd $APPBASE && ./manage.py index
 
 # nightly cleanup and backup at 03:05
 5 3 * * * cd $APPBASE && ./manage.py cleanup && ./manage.py backup -S -M -B 2

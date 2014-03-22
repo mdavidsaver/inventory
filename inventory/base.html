@@ -16,7 +16,7 @@
 <li><a href="{% url "vendors" %}">Vendor list</a></li>
 </ul>
 <form id="search" method="get" action="{% url "home" %}">
-<input type="text" maxlength="200" name="query" title="Query">
+<input type="text" maxlength="200" name="query" value="{{ querystr }}">
 <button type="submit" value="Go">
 </form>
 </div>

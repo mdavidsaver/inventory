@@ -16,7 +16,7 @@ class SearchForm(forms.Form):
 
 def show_parts(request):
     parts = Part.objects.all()
-    conv = False
+    conv, query = False, ''
 
     if 'query' in request.GET:
         form = SearchForm(request.GET)
@@ -35,7 +35,8 @@ def show_parts(request):
         # Paginate first?
         parts = [ p.instance for p in parts ]
 
-    return TemplateResponse(request, 'parts_list.html', {'object_list':parts})
+    return TemplateResponse(request, 'parts_list.html',
+                            {'object_list':parts,'querystr':query})
 
 def use_part(request, oem, partnum):
     P = get_object_or_404(Part.objects, oem__name=oem, partnum=partnum)

@@ -89,6 +89,7 @@ class Info(models.Model):
 class VendorForm(ModelForm):
     class Meta:
         model = Vendor
+        exclude = ()
 
 class PartForm(ModelForm):
     class Meta:
